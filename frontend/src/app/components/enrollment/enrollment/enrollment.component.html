@@ -1,0 +1,25 @@
+<mat-grid-list cols="2" rowHeight="5:1">
+  <mat-grid-tile>
+    <mat-form-field appearance="fill">
+      <mat-label>Kierunek</mat-label>
+      <mat-select>
+        <mat-option value="option">Informatyka</mat-option>
+        <mat-option value="option">Zarządzanie</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-form-field appearance="fill">
+      <mat-label>Blok zapisów</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let block of blocks" [value]="block">{{block}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <button mat-raised-button color="accent">Przejdź do zapisów</button>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <button mat-raised-button color="accent">Utwórz szablon</button>
+  </mat-grid-tile>
+</mat-grid-list>
