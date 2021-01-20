@@ -8,6 +8,7 @@ import { RoutingModule } from './routing/routing.module';
 import { HeaderComponent } from './components/navigation/header/header.component';
 import {EnrollmentModule} from './components/enrollment/enrollment.module';
 import {HttpClientModule} from '@angular/common/http';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import {HttpClientModule} from '@angular/common/http';
     BrowserModule,
     NoopAnimationsModule,
     MaterialModule,
+    FlexLayoutModule,
     RoutingModule,
     EnrollmentModule,
     HttpClientModule
