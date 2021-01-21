@@ -1,5 +1,5 @@
 FROM openjdk:8
-RUN mkdir -p /backend
-WORKDIR /backend
-COPY enrollment-0.0.1-SNAPSHOT.jar backend.jar
-ENTRYPOINT ["java", "-jar", "-Dspring.config.location=/backend/application.properties", "/backend/backend.jar"] 
+WORKDIR /
+ADD enrollment-0.0.1-SNAPSHOT.jar backend.jar
+ADD application.properties  application.properties
+CMD java -jar backend.jar application.properties
