@@ -19,12 +19,16 @@ public class EnrollmentBlock {
 
     private String name;
 
+    @Column(name = "IS_LIMITED")
     private boolean isLimited;
 
+    @Column(name = "START_DATE")
     private Date startDate;
 
+    @Column(name = "END_DATE")
     private Date endDate;
 
+    @Column(name = "IS_CORRECTION")
     private boolean isCorrection;
 
     @ManyToMany(mappedBy = "enrollmentBlocks")
