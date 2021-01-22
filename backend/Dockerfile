@@ -7,6 +7,7 @@ FROM openjdk:8-alpine
 
 RUN mkdir -p /app
 WORKDIR /app
-COPY ../../backend /app
-RUN mvnw clean install
+COPY . /app
+RUN sh ./mvnw clean install -DskipTests
+COPY src/main/resources/application.properties application.properties
 ENTRYPOINT ["java", "-jar", "target/enrollment-0.0.1-SNAPSHOT.jar", "application.properties"]
