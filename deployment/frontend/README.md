@@ -20,6 +20,10 @@ sudo docker build -t frontend:1.0 ../../frontend
 # cd <<ścieżka do projektu>>/EnrollmentSystem/frontend
 kubectl create -f frontend.yml
 
+# klient nie kontaktuje się z backend po wewnętrznej sieci k8s,
+# tylko przez http 
+kubectl port-forward service/backend-service 8080:8080
+
 # na razie w celach testowych
 # będzie trzeba zmienić, jak już będzie jenkins, żeby samo odkrywało port 
 kubectl port-forward service/frontend-service 4200:4200
