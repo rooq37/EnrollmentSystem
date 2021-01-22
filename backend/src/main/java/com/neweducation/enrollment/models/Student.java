@@ -15,11 +15,10 @@ public class Student {
     @Id
     private Long index;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "STUDENTS_ENROLLMENT_BLOCKS",
-            joinColumns = @JoinColumn(name = "STUDENT_INDEX"),
-            inverseJoinColumns = @JoinColumn(name = "ENROLLMENT_BLOCK_ID"))
-    private Set<EnrollmentBlock> enrollmentBlocks = new HashSet<>();
+    @OneToMany(mappedBy = "student")
+    private Set<StudentSchedule> studentSchedules = new HashSet<>();
+
+    @OneToMany(mappedBy = "student")
+    private Set<StudyingDetails> studyingDetails = new HashSet<>();
 
 }

@@ -1,50 +1,76 @@
-<mat-grid-list cols="2" rowHeight="5:1">
-  <mat-grid-tile>
-    <mat-form-field appearance="fill">
-      <mat-label>Kierunek</mat-label>
-      <mat-select>
-        <mat-option value="option">Informatyka</mat-option>
-        <mat-option value="option">Zarządzanie</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <mat-form-field appearance="fill">
-      <mat-label>Blok zapisów</mat-label>
-      <mat-select>
-        <mat-option *ngFor="let block of blocks" [value]="block">{{block}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <button mat-raised-button color="accent">Przejdź do zapisów</button>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <button mat-raised-button color="accent">Utwórz szablon</button>
-  </mat-grid-tile>
-</mat-grid-list>
+<div fxLayout="column" class="container" fxLayoutGap="50px">
+  <div fxLayout="row" fxLayoutAlign="space-evenly">
+    <div fxLayout="column">
+      <mat-form-field appearance="fill">
+        <mat-label>Kierunek</mat-label>
+        <mat-select (selectionChange)="selectFieldOfStudy($event)">
+          <mat-option *ngFor="let fieldOfStudy of fieldsOfStudy" [value]="fieldOfStudy.code">{{fieldOfStudy.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxLayout="column">
+      <mat-form-field appearance="fill">
+        <mat-label>Blok zapisów</mat-label>
+        <mat-select #enrollmentBlocks (selectionChange)="selectEnrollmentBlock($event)">
+          <mat-option *ngFor="let block of blocks" [value]="block.id">{{block.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
 
-<table mat-table [dataSource]="dataSource" matSort>
-  <ng-container matColumnDef="courseName">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nazwa kursu </th>
-    <td mat-cell *matCellDef="let element"> {{element.courseName}} </td>
-  </ng-container>
-  <ng-container matColumnDef="courseCode">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Kod kursu </th>
-    <td mat-cell *matCellDef="let element"> {{element.courseCode}} </td>
-  </ng-container>
-  <ng-container matColumnDef="courseType">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Forma zajęć </th>
-    <td mat-cell *matCellDef="let element"> {{element.courseType}} </td>
-  </ng-container>
-  <ng-container matColumnDef="numberOfEcts">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Liczba ECTS </th>
-    <td mat-cell *matCellDef="let element"> {{element.numberOfEcts}} </td>
-  </ng-container>
-  <ng-container matColumnDef="isSelectable">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Wybieralny </th>
-    <td mat-cell *matCellDef="let element"> {{element.isSelectable}} </td>
-  </ng-container>
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+  <div fxLayout="row" fxLayoutAlign="space-evenly">
+    <button mat-raised-button color="accent">Przejdź do zapisów</button>
+    <button mat-raised-button color="accent">Utwórz szablon</button>
+  </div>
+
+  <div *ngIf="enrollmentDetails" fxLayout="column" fxLayoutAlign="center">
+    <div fxLayout="row" fxLayoutAlign="center">
+      <h3>Informacje:</h3>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-evenly">
+      <div fxLayout="column">
+        <div>Ograniczenia: {{enrollmentDetails.isLimited?'Tak':'Nie'}}</div>
+        <div>Rozpoczęcie bloku: {{enrollmentDetails.startDate | date: 'dd.MM.yyyy HH:mm'}}</div>
+        <div>Zakończenie bloku: {{enrollmentDetails.endDate | date: 'dd.MM.yyyy HH:mm'}}</div>
+      </div>
+      <div fxLayout="column">
+        <div>Korekty: {{enrollmentDetails.isCorrection?'Tak':'Nie'}}</div>
+        <div>Rozpoczęcie studenta: {{enrollmentDetails.studentStartDate | date: 'dd.MM.yyyy HH:mm'}}</div>
+        <div>Zakończenie studenta: {{enrollmentDetails.studentEndDate | date: 'dd.MM.yyyy HH:mm'}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="column" fxLayoutAlign="center">
+    <div fxLayout="row" fxLayoutAlign="center">
+      <h3>Bieżące kursy:</h3>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="courseName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nazwa kursu </th>
+          <td mat-cell *matCellDef="let element"> {{element.courseName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="courseCode">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Kod kursu </th>
+          <td mat-cell *matCellDef="let element"> {{element.courseCode}} </td>
+        </ng-container>
+        <ng-container matColumnDef="courseType">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Forma zajęć </th>
+          <td mat-cell *matCellDef="let element"> {{element.courseType}} </td>
+        </ng-container>
+        <ng-container matColumnDef="numberOfEcts">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Liczba ECTS </th>
+          <td mat-cell *matCellDef="let element"> {{element.numberOfEcts}} </td>
+        </ng-container>
+        <ng-container matColumnDef="isSelectable">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Wybieralny </th>
+          <td mat-cell *matCellDef="let element"> {{element.isSelectable}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>
+
+</div>

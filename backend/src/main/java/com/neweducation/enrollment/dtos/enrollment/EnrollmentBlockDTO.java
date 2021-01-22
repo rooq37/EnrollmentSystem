@@ -3,12 +3,11 @@ package com.neweducation.enrollment.dtos.enrollment;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
-public class EnrollmentBlocksDTO {
+public class EnrollmentBlockDTO {
 
-    private List<String> enrollmentBlockNames;
+    private Long id;
+    private String name;
 
 }

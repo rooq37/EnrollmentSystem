@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs';
-import {EnrollmentBlocks} from '../../models/enrollment/enrollment-blocks';
+import {EnrollmentBlock} from '../../models/enrollment/enrollment-block';
+import {FieldOfStudy} from '../../models/enrollment/field-of-study';
+import {EnrollmentDetails} from '../../models/enrollment/enrollment-details';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+const headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,21 @@ export class EnrollmentService {
 
   constructor(private http: HttpClient) { }
 
-  getEnrollmentBlocks(studentIndex: string): Observable<EnrollmentBlocks> {
-    return this.http.get<EnrollmentBlocks>(`${this.baseUrl}/blocks/${studentIndex}`, httpOptions);
+  getFieldsOfStudy(studentIndex: string): Observable<FieldOfStudy[]> {
+    return this.http.get<FieldOfStudy[]>(`${this.baseUrl}/fields/${studentIndex}`, {headers});
+  }
+
+  getEnrollmentBlocks(studentIndex: string, fieldOfStudyCode: string): Observable<EnrollmentBlock[]> {
+    const params = new HttpParams()
+      .set('studentIndex', studentIndex)
+      .set('fieldOfStudyCode', fieldOfStudyCode);
+    return this.http.get<EnrollmentBlock[]>(`${this.baseUrl}/blocks`, {headers, params});
+  }
+
+  getEnrollmentDetails(studentIndex: string, enrollmentBlockId: string): Observable<EnrollmentDetails> {
+    const params = new HttpParams()
+      .set('studentIndex', studentIndex)
+      .set('enrollmentBlockId', enrollmentBlockId);
+    return this.http.get<EnrollmentDetails>(`${this.baseUrl}/details`, {headers, params});
   }
 }
