@@ -13,7 +13,7 @@ const httpOptions = {
 })
 export class EnrollmentService {
 
-  baseUrl = environment.urlAddress + '/api/enrollment/';
+  baseUrl = environment.urlAddress + '/api/enrollment';
 
   constructor(private http: HttpClient) { }
 
