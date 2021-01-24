@@ -21,4 +21,6 @@ public class Student {
     @OneToMany(mappedBy = "student")
     private Set<StudyingDetails> studyingDetails = new HashSet<>();
 
+    @OneToMany(mappedBy = "student")
+    private Set<StudentCourse> studentCourses = new HashSet<>();
 }

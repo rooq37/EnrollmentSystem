@@ -25,7 +25,7 @@ public class StudyingDetails {
     private int semester;
 
     @Column(name = "SEMESTER_TYPE")
-    private String semesterType;
+    private SemesterType semesterType;
 
     @Column(name = "START_DATE")
     private Date startDate;

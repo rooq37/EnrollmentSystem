@@ -1,18 +1,17 @@
 package com.neweducation.enrollment.services.enrollment;
 
+import com.neweducation.enrollment.dtos.enrollment.CourseItemDTO;
 import com.neweducation.enrollment.dtos.enrollment.EnrollmentBlockDTO;
 import com.neweducation.enrollment.dtos.enrollment.EnrollmentDetailsDTO;
 import com.neweducation.enrollment.dtos.enrollment.FieldOfStudyDTO;
 import com.neweducation.enrollment.exceptions.StudentNotFoundException;
-import com.neweducation.enrollment.models.FieldOfStudy;
-import com.neweducation.enrollment.models.Student;
-import com.neweducation.enrollment.models.StudentSchedule;
-import com.neweducation.enrollment.models.StudyingDetails;
+import com.neweducation.enrollment.models.*;
 import com.neweducation.enrollment.repositories.StudentRepository;
 import com.neweducation.enrollment.repositories.StudentScheduleRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,5 +54,29 @@ public class EnrollmentService {
                 .orElseThrow(() -> new RuntimeException("E"));
 
         return mapper.map(studentSchedule, EnrollmentDetailsDTO.class);
+    }
+
+    public List<CourseItemDTO> getCurrentCourses(Long studentIndex, String fieldOfStudyCode) {
+        return getCourses(studentIndex, fieldOfStudyCode, CourseStatus.TO_PASS);
+    }
+
+    public List<CourseItemDTO> getOverdueCourses(Long studentIndex, String fieldOfStudyCode) {
+        return getCourses(studentIndex, fieldOfStudyCode, CourseStatus.FAILED);
+    }
+
+    private List<CourseItemDTO> getCourses(Long studentIndex, String fieldOfStudyCode, CourseStatus courseStatus) {
+        Student student = studentRepository.findByIndex(studentIndex)
+                .orElseThrow(() -> new StudentNotFoundException(String.valueOf(studentIndex)));
+        List<Course> coursesToPass = student.getStudentCourses().stream()
+                .filter(studentCourse -> studentCourse.getCourseStatus().equals(courseStatus))
+                .map(StudentCourse::getCourse)
+                .collect(Collectors.toList());
+        List<Course> coursesFromField = coursesToPass.stream()
+                .filter(course -> course.getEducationPlans().stream()
+                        .map(educationPlan -> educationPlan.getFieldOfStudy().getCode())
+                        .collect(Collectors.toList())
+                        .contains(fieldOfStudyCode))
+                .collect(Collectors.toList());
+        return coursesFromField.stream().map(course -> mapper.map(course, CourseItemDTO.class)).collect(Collectors.toList());
     }
 }

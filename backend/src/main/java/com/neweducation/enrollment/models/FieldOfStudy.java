@@ -24,4 +24,7 @@ public class FieldOfStudy {
 
     @ManyToMany(mappedBy = "fieldsOfStudy")
     private Set<EnrollmentBlock> enrollmentBlocks = new HashSet<>();
+
+    @OneToMany(mappedBy = "fieldOfStudy")
+    private Set<EducationPlan> educationPlans = new HashSet<>();
 }

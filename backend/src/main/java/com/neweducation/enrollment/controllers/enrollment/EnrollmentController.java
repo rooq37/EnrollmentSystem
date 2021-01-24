@@ -1,5 +1,6 @@
 package com.neweducation.enrollment.controllers.enrollment;
 
+import com.neweducation.enrollment.dtos.enrollment.CourseItemDTO;
 import com.neweducation.enrollment.dtos.enrollment.EnrollmentBlockDTO;
 import com.neweducation.enrollment.dtos.enrollment.EnrollmentDetailsDTO;
 import com.neweducation.enrollment.dtos.enrollment.FieldOfStudyDTO;
@@ -37,5 +38,19 @@ public class EnrollmentController {
             @RequestParam(name = "studentIndex") Long studentIndex,
             @RequestParam(name = "enrollmentBlockId") Long enrollmentBlockId) {
         return ResponseEntity.ok(enrollmentService.getEnrollmentDetails(studentIndex, enrollmentBlockId));
+    }
+
+    @GetMapping("/current-courses")
+    public ResponseEntity<List<CourseItemDTO>> getCurrentCourses(
+            @RequestParam(name = "studentIndex") Long studentIndex,
+            @RequestParam(name = "fieldOfStudyCode") String fieldOfStudyCode) {
+        return ResponseEntity.ok(enrollmentService.getCurrentCourses(studentIndex, fieldOfStudyCode));
+    }
+
+    @GetMapping("/overdue-courses")
+    public ResponseEntity<List<CourseItemDTO>> getOverdueCourses(
+            @RequestParam(name = "studentIndex") Long studentIndex,
+            @RequestParam(name = "fieldOfStudyCode") String fieldOfStudyCode) {
+        return ResponseEntity.ok(enrollmentService.getOverdueCourses(studentIndex, fieldOfStudyCode));
     }
 }
