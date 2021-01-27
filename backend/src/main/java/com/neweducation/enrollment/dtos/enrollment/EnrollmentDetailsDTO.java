@@ -1,5 +1,6 @@
 package com.neweducation.enrollment.dtos.enrollment;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,9 +10,17 @@ import java.util.Date;
 @Setter
 public class EnrollmentDetailsDTO {
 
-    private boolean isLimited;
+    @JsonProperty("isLimited")
+    private boolean enrollmentBlockIsLimited;
+    @JsonProperty("studentStartDate")
     private Date startDate;
+    @JsonProperty("studentEndDate")
     private Date endDate;
-    private boolean isCorrection;
+    @JsonProperty("isCorrection")
+    private boolean enrollmentBlockIsCorrection;
+    @JsonProperty("startDate")
+    private Date enrollmentBlockStartDate;
+    @JsonProperty("endDate")
+    private Date enrollmentBlockEndDate;
 
 }

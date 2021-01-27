@@ -31,7 +31,13 @@ public class EnrollmentBlock {
     @Column(name = "IS_CORRECTION")
     private boolean isCorrection;
 
-    @ManyToMany(mappedBy = "enrollmentBlocks")
-    private Set<Student> students = new HashSet<>();
+    @OneToMany(mappedBy = "enrollmentBlock")
+    private Set<StudentSchedule> studentSchedules = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "ENROLLMENT_BLOCK_STUDYING_DETAILS",
+            joinColumns = @JoinColumn(name = "ENROLLMENT_BLOCK_ID"),
+            inverseJoinColumns = @JoinColumn(name = "FIELD_OF_STUDY_CODE"))
+    private Set<FieldOfStudy> fieldsOfStudy = new HashSet<>();
 }

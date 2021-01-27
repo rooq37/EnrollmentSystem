@@ -1,5 +1,9 @@
+.container {
+  padding-top: 25px;
+}
+
 table {
-  width: 100%;
+  width: 65%;
   overflow-x: auto;
   overflow-y: hidden;
   min-width: 500px;
