@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: frontend:1.0
+          image: kwozniak218/psi_frontend
           ports:
             - containerPort: 4200
 ---

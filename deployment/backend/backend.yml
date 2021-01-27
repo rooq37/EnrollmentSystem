@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: backend:1.0
+          image: kwozniak218/psi_backend
           ports:
             - containerPort: 8080
 ---
@@ -25,9 +25,10 @@ kind: Service
 metadata:
   name: backend-service
 spec:
+  type: NodePort
   ports:
     - port: 8080
-      protocol: TCP
       targetPort: 8080
+      nodePort: 30000
   selector:
     app: backend
