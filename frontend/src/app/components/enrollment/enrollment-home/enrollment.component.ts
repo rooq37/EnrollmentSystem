@@ -15,6 +15,7 @@ import {CourseItem} from '../../../models/enrollment/course-item';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {UserService} from '../../../services/user/user.service';
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-enrollment',
@@ -23,7 +24,7 @@ import {UserService} from '../../../services/user/user.service';
 })
 export class EnrollmentComponent implements OnInit, AfterViewInit {
   blocks: EnrollmentBlock[];
-  fieldsOfStudy: FieldOfStudy[];
+  fieldsOfStudy$: Observable<FieldOfStudy[]>;
   enrollmentDetails: EnrollmentDetails;
   enrollmentForm: FormGroup;
   userService: UserService;
@@ -44,11 +45,7 @@ export class EnrollmentComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.enrollmentService.getFieldsOfStudy().subscribe(
-      res => {
-        this.fieldsOfStudy = res;
-      }
-    );
+    this.fieldsOfStudy$ = this.enrollmentService.getFieldsOfStudy();
     this.enrollmentForm = new FormGroup({
       fieldOfStudy: new FormControl('', [Validators.required]),
       enrollmentBlock: new FormControl('', [Validators.required])

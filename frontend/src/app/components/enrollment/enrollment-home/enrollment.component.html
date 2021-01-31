@@ -1,4 +1,4 @@
-<div fxLayout="column" class="container" fxLayoutGap="50px" *ngIf="this.userService.isLogged">
+<div fxLayout="column" class="container" fxLayoutGap="50px" *ngIf="this.userService.logged() | async; else notlogged">
 
   <form [formGroup]="enrollmentForm" autocomplete="off">
     <div fxLayout="row" fxLayoutAlign="space-evenly">
@@ -6,7 +6,7 @@
         <mat-form-field appearance="fill" [style.width.px]="300">
           <mat-label>Kierunek</mat-label>
           <mat-select (selectionChange)="selectFieldOfStudy($event)" formControlName="fieldOfStudy">
-            <mat-option *ngFor="let fieldOfStudy of fieldsOfStudy" [value]="fieldOfStudy.code">{{fieldOfStudy.name}}</mat-option>
+            <mat-option *ngFor="let fieldOfStudy of (fieldsOfStudy$ | async)" [value]="fieldOfStudy.code">{{fieldOfStudy.name}}</mat-option>
           </mat-select>
           <mat-error *ngIf="hasError('fieldOfStudy', 'required')">Wybierz kierunek studiów</mat-error>
         </mat-form-field>
@@ -116,11 +116,13 @@
 
 </div>
 
-<div fxLayout="column" fxLayoutAlign="center" *ngIf="!this.userService.isLogged">
-  <div fxLayout="row" fxLayoutAlign="center" fxFlex="10">
-    <img src="https://biurokarier.pwr.edu.pl/wp-content/uploads/2019/10/logo-PWr-kolor-pion.png">
+<ng-template #notlogged>
+  <div fxLayout="column" fxLayoutAlign="center" *ngIf="!this.userService.isLogged">
+    <div fxLayout="row" fxLayoutAlign="center" fxFlex="10">
+      <img src="https://biurokarier.pwr.edu.pl/wp-content/uploads/2019/10/logo-PWr-kolor-pion.png">
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center">
+      <button id="login-btn" mat-raised-button color="accent" (click)="this.userService.login()">Zaloguj</button>
+    </div>
   </div>
-  <div fxLayout="row" fxLayoutAlign="center">
-    <button id="login-btn" mat-raised-button color="accent" (click)="this.userService.login()">Zaloguj</button>
-  </div>
-</div>
+</ng-template>

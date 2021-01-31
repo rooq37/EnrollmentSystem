@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import {AuthService} from '@auth0/auth0-angular';
 import {HttpClient} from '@angular/common/http';
+import {map, tap} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -54,4 +55,22 @@ export class UserService {
     );
   }
 
+  logged(): Observable<boolean> {
+    return this.authService.isAuthenticated$;
+  }
+
+  index(): Observable<string> {
+    return this.authService.user$.pipe(map(({nickname}) => nickname));
+  }
+
+  getToken(): Observable<string | void> {
+    const token = localStorage.getItem(this.USER_TOKEN);
+    return !!token
+      ? of(token)
+      : this.setToken();
+  }
+
+  setToken(): Observable<string | void> {
+    return this.authService.getAccessTokenSilently().pipe(tap(token => localStorage.setItem(this.USER_TOKEN, token as string)));
+  }
 }
