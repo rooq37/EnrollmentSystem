@@ -7,6 +7,8 @@ import com.neweducation.enrollment.dtos.group_enrollment.GroupItemDTO;
 import com.neweducation.enrollment.dtos.group_enrollment.SubscriptionDTO;
 import com.neweducation.enrollment.exceptions.enrollment.CourseAlreadySubscribedException;
 import com.neweducation.enrollment.exceptions.enrollment.GroupAlreadySubscribedException;
+import com.neweducation.enrollment.exceptions.enrollment.GroupFullException;
+import com.neweducation.enrollment.exceptions.enrollment.OutOfEnrollmentBlockException;
 import com.neweducation.enrollment.exceptions.not_found.*;
 import com.neweducation.enrollment.models.*;
 import com.neweducation.enrollment.repositories.*;
@@ -27,6 +29,7 @@ public class GroupEnrollmentService extends EnrollmentService {
     private final CourseRepository courseRepository;
     private final GroupRepository groupRepository;
     private final EnrollmentRepository enrollmentRepository;
+    private final StudentScheduleRepository studentScheduleRepository;
     private final ModelMapper mapper;
     private final EnrollmentMapper enrollmentMapper;
 
@@ -36,12 +39,14 @@ public class GroupEnrollmentService extends EnrollmentService {
                                   EnrollmentBlockRepository enrollmentBlockRepository,
                                   CourseRepository courseRepository,
                                   GroupRepository groupRepository,
-                                  EnrollmentRepository enrollmentRepository) {
+                                  EnrollmentRepository enrollmentRepository,
+                                  StudentScheduleRepository studentScheduleRepository) {
         super(studyingDetailsRepository, studentRepository, fieldOfStudyRepository);
         this.enrollmentBlockRepository = enrollmentBlockRepository;
         this.courseRepository = courseRepository;
         this.groupRepository = groupRepository;
         this.enrollmentRepository = enrollmentRepository;
+        this.studentScheduleRepository = studentScheduleRepository;
         this.mapper = new ModelMapper();
         this.enrollmentMapper = new EnrollmentMapper();
     }
@@ -137,6 +142,11 @@ public class GroupEnrollmentService extends EnrollmentService {
             throw new CourseAlreadySubscribedException(
                     group.getCourse().getCode(), group.getCourse().getName(), group.getCourse().getFormOfClasses().getValue());
 
+        if(checkIfEnrollmentBlockIsClosed(student, enrollmentBlock))
+            throw new OutOfEnrollmentBlockException(enrollmentBlock.getName());
+
+        if(checkIfGroupIsFull(group))
+            throw new GroupFullException(group.getCode(), group.getCourse().getCode(), group.getCourse().getName());
     }
 
     private boolean checkCourseSubscription(Student student, Group group) {
@@ -146,6 +156,19 @@ public class GroupEnrollmentService extends EnrollmentService {
             }
         }
         return false;
+    }
+
+    private boolean checkIfEnrollmentBlockIsClosed(Student student, EnrollmentBlock enrollmentBlock) {
+        StudentSchedule studentSchedule = studentScheduleRepository
+                .findByStudentIndexAndEnrollmentBlockId(student.getIndex(), enrollmentBlock.getId())
+                .orElseThrow(() -> new StudentScheduleNotFoundException(student.getIndex(), enrollmentBlock.getId()));
+
+        Date currentDate = new Date();
+        return currentDate.after(studentSchedule.getEndDate()) || currentDate.before(studentSchedule.getStartDate());
+    }
+
+    private boolean checkIfGroupIsFull(Group group) {
+        return group.getEnrollments().size() == group.getLimitOfPlaces();
     }
 
     private List<CourseWithGroupItemDTO> assignGroupsToCourses(Long studentIndex, List<Course> courses) {
