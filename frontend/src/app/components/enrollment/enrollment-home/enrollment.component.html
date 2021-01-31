@@ -5,7 +5,7 @@
       <div fxLayout="column">
         <mat-form-field appearance="fill" [style.width.px]="300">
           <mat-label>Kierunek</mat-label>
-          <mat-select (selectionChange)="selectFieldOfStudy($event)" formControlName="fieldOfStudy">
+          <mat-select id="fieldOfStudySelect" (selectionChange)="selectFieldOfStudy($event)" formControlName="fieldOfStudy">
             <mat-option *ngFor="let fieldOfStudy of fieldsOfStudy" [value]="fieldOfStudy.code">{{fieldOfStudy.name}}</mat-option>
           </mat-select>
           <mat-error *ngIf="hasError('fieldOfStudy', 'required')">Wybierz kierunek studiów</mat-error>
@@ -14,7 +14,7 @@
       <div fxLayout="column">
         <mat-form-field appearance="fill" [style.width.px]="300">
           <mat-label>Blok zapisów</mat-label>
-          <mat-select #enrollmentBlocks (selectionChange)="selectEnrollmentBlock($event)" formControlName="enrollmentBlock">
+          <mat-select id="enrollmentBlockSelect" #enrollmentBlocks (selectionChange)="selectEnrollmentBlock($event)" formControlName="enrollmentBlock">
             <mat-option *ngFor="let block of blocks" [value]="block.id">{{block.name}}</mat-option>
           </mat-select>
           <mat-error *ngIf="hasError('enrollmentBlock', 'required')">Wybierz blok zapisów</mat-error>
@@ -23,12 +23,12 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="space-evenly">
-      <button (click)="redirectToGroupEnrollment()" [disabled]="!enrollmentForm.valid" mat-raised-button color="accent">Przejdź do zapisów</button>
+      <button id="goToEnrollmentsButton" (click)="redirectToGroupEnrollment()" [disabled]="!enrollmentForm.valid" mat-raised-button color="accent">Przejdź do zapisów</button>
       <button [disabled]="true" mat-raised-button color="accent">Utwórz szablon</button>
     </div>
   </form>
 
-  <div *ngIf="enrollmentDetails" fxLayout="column" fxLayoutAlign="center">
+  <div id="informationSection" *ngIf="enrollmentDetails" fxLayout="column" fxLayoutAlign="center">
     <div fxLayout="row" fxLayoutAlign="center">
       <h3>Informacje:</h3>
     </div>
@@ -46,7 +46,7 @@
     </div>
   </div>
 
-  <div fxLayout="column" fxLayoutAlign="center">
+  <div id="currentCourses" fxLayout="column" fxLayoutAlign="center">
     <div fxLayout="row" fxLayoutAlign="center">
       <h3 [hidden]="currentCourses.data.length === 0">Bieżące kursy:</h3>
     </div>
@@ -80,7 +80,7 @@
     </div>
   </div>
 
-  <div fxLayout="column" fxLayoutAlign="center">
+  <div id="overdueCourses" fxLayout="column" fxLayoutAlign="center">
     <div fxLayout="row" fxLayoutAlign="center">
       <h3 [hidden]="overdueCourses.data.length === 0">Zaległe kursy:</h3>
     </div>
