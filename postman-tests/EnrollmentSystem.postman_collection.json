@@ -1,0 +1,359 @@
+{
+	"info": {
+		"_postman_id": "45403542-7a2c-445b-8f3a-6d622636a061",
+		"name": "EnrollmentSystem",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetFieldsOfStudy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should get fields of study for student index\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.json",
+							"",
+							"    const responseJson = pm.response.json();",
+							"        pm.expect(responseJson[0].code).to.eql(\"W8_INF\")",
+							"        pm.expect(responseJson[0].name).to.eql(\"Informatyka stosowana\")",
+							"});",
+							"",
+							"pm.test(\"Should get fields of courses with specified tpye\", function() {",
+							"",
+							"    const responseJson = pm.response.json();",
+							"    responseJson.forEach(function (res) {",
+							"    pm.expect(res.code).to.be.a(\"string\");",
+							"    pm.expect(res.name).to.be.a(\"string\");",
+							"    });",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 500ms\", () => {",
+							"  pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InBlNG5uQzRfalJhWXhLSm9xazcyTyJ9.eyJpc3MiOiJodHRwczovL2Rldi10Y25xZmVjdi5ldS5hdXRoMC5jb20vIiwic3ViIjoiZnpXdFZWYk03N2NCRE9KbkVlUDFMNHRJVlFLZDJlUkpAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImlhdCI6MTYxMjEyMDMyNiwiZXhwIjoxNjEyMjA2NzI2LCJhenAiOiJmeld0VlZiTTc3Y0JET0puRWVQMUw0dElWUUtkMmVSSiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.kLrZWk3O8S0E3WiCb22Mi3pRpgVl3l4c0cNCKmyUAYduQjKUkTMgkWGnJyeihgajYc6IzSccOmVuygL9rA6qAaVaunGqEvV1cI4DKH167kMQbTaur0cLOeF-G-Oc0J5yl55f-rSZ7p_w_OjFfXwqGgYmhFjW-QBpmPN96AXjKC_vPxbRqcN30DO41qOFh2jR99T5lm4BiWjX14cA16PJEAZUzFBS0SZtsrO-UPpnCG5gTWGyGupbU6Ina7P6Ng9FYRAy6qndAJehPHVmSJWp5vg0ZiQnirL-QZHyu9Nf9Rn619woq701BHpIGB8cdf5bUyOA9HWzA7kxlvYZqB-sSg",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InBlNG5uQzRfalJhWXhLSm9xazcyTyJ9.{{AuthToken}}.kLrZWk3O8S0E3WiCb22Mi3pRpgVl3l4c0cNCKmyUAYduQjKUkTMgkWGnJyeihgajYc6IzSccOmVuygL9rA6qAaVaunGqEvV1cI4DKH167kMQbTaur0cLOeF-G-Oc0J5yl55f-rSZ7p_w_OjFfXwqGgYmhFjW-QBpmPN96AXjKC_vPxbRqcN30DO41qOFh2jR99T5lm4BiWjX14cA16PJEAZUzFBS0SZtsrO-UPpnCG5gTWGyGupbU6Ina7P6Ng9FYRAy6qndAJehPHVmSJWp5vg0ZiQnirL-QZHyu9Nf9Rn619woq701BHpIGB8cdf5bUyOA9HWzA7kxlvYZqB-sSg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/enrollment/fields/238123",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"enrollment",
+						"fields",
+						"238123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetEnrollmentBlocks",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should get blocks\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.json",
+							"",
+							"    const responseJson = pm.response.json();",
+							"        pm.expect(responseJson[0].id).to.eql(1)",
+							"        pm.expect(responseJson[0].name).to.eql(\"Zapisy Lato 2020/2021\")",
+							"});",
+							"",
+							"pm.test(\"Should get blockswith specified tpye\", function() {",
+							"    const responseJson = pm.response.json();",
+							"    responseJson.forEach(function (res) {",
+							"    pm.expect(res.id).to.be.a(\"number\");",
+							"    pm.expect(res.name).to.be.a(\"string\");",
+							"    });",
+							"});",
+							"pm.test(\"Response time is less than 500ms\", () => {",
+							"  pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InBlNG5uQzRfalJhWXhLSm9xazcyTyJ9.eyJpc3MiOiJodHRwczovL2Rldi10Y25xZmVjdi5ldS5hdXRoMC5jb20vIiwic3ViIjoiZnpXdFZWYk03N2NCRE9KbkVlUDFMNHRJVlFLZDJlUkpAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImlhdCI6MTYxMjEyMDMyNiwiZXhwIjoxNjEyMjA2NzI2LCJhenAiOiJmeld0VlZiTTc3Y0JET0puRWVQMUw0dElWUUtkMmVSSiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.kLrZWk3O8S0E3WiCb22Mi3pRpgVl3l4c0cNCKmyUAYduQjKUkTMgkWGnJyeihgajYc6IzSccOmVuygL9rA6qAaVaunGqEvV1cI4DKH167kMQbTaur0cLOeF-G-Oc0J5yl55f-rSZ7p_w_OjFfXwqGgYmhFjW-QBpmPN96AXjKC_vPxbRqcN30DO41qOFh2jR99T5lm4BiWjX14cA16PJEAZUzFBS0SZtsrO-UPpnCG5gTWGyGupbU6Ina7P6Ng9FYRAy6qndAJehPHVmSJWp5vg0ZiQnirL-QZHyu9Nf9Rn619woq701BHpIGB8cdf5bUyOA9HWzA7kxlvYZqB-sSg",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InBlNG5uQzRfalJhWXhLSm9xazcyTyJ9.{{AuthToken}}.kLrZWk3O8S0E3WiCb22Mi3pRpgVl3l4c0cNCKmyUAYduQjKUkTMgkWGnJyeihgajYc6IzSccOmVuygL9rA6qAaVaunGqEvV1cI4DKH167kMQbTaur0cLOeF-G-Oc0J5yl55f-rSZ7p_w_OjFfXwqGgYmhFjW-QBpmPN96AXjKC_vPxbRqcN30DO41qOFh2jR99T5lm4BiWjX14cA16PJEAZUzFBS0SZtsrO-UPpnCG5gTWGyGupbU6Ina7P6Ng9FYRAy6qndAJehPHVmSJWp5vg0ZiQnirL-QZHyu9Nf9Rn619woq701BHpIGB8cdf5bUyOA9HWzA7kxlvYZqB-sSg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/enrollment/blocks?studentIndex=238123&fieldOfStudyCode=W8_INF",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"enrollment",
+						"blocks"
+					],
+					"query": [
+						{
+							"key": "studentIndex",
+							"value": "238123"
+						},
+						{
+							"key": "fieldOfStudyCode",
+							"value": "W8_INF"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetEnrollmentDetails",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should get fields of with concrete tpye\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.json",
+							"",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson.isLimited).to.be.a(\"boolean\");",
+							"    pm.expect(responseJson.studentStartDate).to.be.a(\"string\");",
+							"    pm.expect(responseJson.isCorrection).to.be.a(\"boolean\");",
+							"    pm.expect(responseJson.startDate).to.be.a(\"string\");",
+							"    pm.expect(responseJson.endDate).to.be.a(\"string\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", () => {",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/enrollment/details?studentIndex=238123&enrollmentBlockId=1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"enrollment",
+						"details"
+					],
+					"query": [
+						{
+							"key": "studentIndex",
+							"value": "238123"
+						},
+						{
+							"key": "enrollmentBlockId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TestUnauthorizedRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should get unauthorized\", function() {",
+							"    pm.response.to.have.status(401);",
+							"});",
+							"pm.test(\"Response time is less than 100ms\", () => {",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXdfdfVCIsImtpZCI6InBlNG5uQzRfalJhWXhLSm9xazcyTyJ9.eyJpc3MiOiJodHRwczovL2Rldi10Y25xZmVjdi5ldS5hdXRoMC5jb20vIiwic3ViIjoiZnpXdFZWYk03N2NCRE9KbkVlUDFMNHRJVlFLZDJlUkpAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImlhdCI6MTYxMjEyMDMyNiwiZXhwIjoxNjEyMjA2NzI2LCJhenAiOiJmeld0VlZiTTc3Y0JET0puRWVQMUw0dElWUUtkMmVSSiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.kLrZWk3O8S0E3WiCb22Mi3pRpgVl3l4c0cNCKmyUAYduQjKUkTMgkWGnJyeihgajYc6IzSccOmVuygL9rA6qAaVaunGqEvV1cI4DKH167kMQbTaur0cLOeF-G-Oc0J5yl55f-rSZ7p_w_OjFfXwqGgYmhFjW-QBpmPN96AXjKC_vPxbRqcN30DO41qOFh2jR99T5lm4BiWjX14cA16PJEAZUzFBS0SZtsrO-UPpnCG5gTWGyGupbU6Ina7P6Ng9FYRAy6qndAJehPHVmSJWp5vg0ZiQnirL-QZHyu9Nf9Rn619woq701BHpIGB8cdf5bUyOA9HWzA7kxlvYZqB-sSg",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InBlNG5uQzRfalJhWXhLSm9xazcyTyJ9.{{AuthToken}}.kLrZWk3O8S0E3WiCb22Mi3pRpgVl3l4c0cNCKmyUAYduQjKUkTMgkWGnJyeihgajYc6IzSccOmVuygL9rA6qAaVaunGqEvV1cI4DKH167kMQbTaur0cLOeF-G-Oc0J5yl55f-rSZ7p_w_OjFfXwqGgYmhFjW-QBpmPN96AXjKC_vPxbRqcN30DO41qOFh2jR99T5lm4BiWjX14cA16PJEAZUzFBS0SZtsrO-UPpnCG5gTWGyGupbU6Ina7P6Ng9FYRAy6qndAJehPHVmSJWp5vg0ZiQnirL-QZHyu9Nf9Rn619woq701BHpIGB8cdf5bUyOA9HWzA7kxlvYZqB-sSg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/enrollment/blocks?studentIndex=238123&fieldOfStudyCode=W8_INF",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"enrollment",
+						"blocks"
+					],
+					"query": [
+						{
+							"key": "studentIndex",
+							"value": "238123"
+						},
+						{
+							"key": "fieldOfStudyCode",
+							"value": "W8_INF"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCurrentCourses",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should get fields of courses with concrete tpye\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.json",
+							"",
+							"    const responseJson = pm.response.json();",
+							"    responseJson.forEach(function (res) {",
+							"    pm.expect(res.name).to.be.a(\"string\");",
+							"    pm.expect(res.code).to.be.a(\"string\");",
+							"    pm.expect(res.formOfClasses).to.be.a(\"string\");",
+							"    pm.expect(res.numberOfEcts).to.be.a(\"number\");",
+							"    pm.expect(res.isSelectable).to.be.a(\"boolean\");",
+							"    });",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 500ms\", () => {",
+							"  pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/enrollment/current-courses?studentIndex=238123&fieldOfStudyCode=W8_INF",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"enrollment",
+						"current-courses"
+					],
+					"query": [
+						{
+							"key": "studentIndex",
+							"value": "238123"
+						},
+						{
+							"key": "fieldOfStudyCode",
+							"value": "W8_INF"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InBlNG5uQzRfalJhWXhLSm9xazcyTyJ9.eyJpc3MiOiJodHRwczovL2Rldi10Y25xZmVjdi5ldS5hdXRoMC5jb20vIiwic3ViIjoiZnpXdFZWYk03N2NCRE9KbkVlUDFMNHRJVlFLZDJlUkpAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImlhdCI6MTYxMjEyMDMyNiwiZXhwIjoxNjEyMjA2NzI2LCJhenAiOiJmeld0VlZiTTc3Y0JET0puRWVQMUw0dElWUUtkMmVSSiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.kLrZWk3O8S0E3WiCb22Mi3pRpgVl3l4c0cNCKmyUAYduQjKUkTMgkWGnJyeihgajYc6IzSccOmVuygL9rA6qAaVaunGqEvV1cI4DKH167kMQbTaur0cLOeF-G-Oc0J5yl55f-rSZ7p_w_OjFfXwqGgYmhFjW-QBpmPN96AXjKC_vPxbRqcN30DO41qOFh2jR99T5lm4BiWjX14cA16PJEAZUzFBS0SZtsrO-UPpnCG5gTWGyGupbU6Ina7P6Ng9FYRAy6qndAJehPHVmSJWp5vg0ZiQnirL-QZHyu9Nf9Rn619woq701BHpIGB8cdf5bUyOA9HWzA7kxlvYZqB-sSg",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "AuthToken",
+			"value": "eyJpc3MiOiJodHRwczovL2Rldi10Y25xZmVjdi5ldS5hdXRoMC5jb20vIiwic3ViIjoiZnpXdFZWYk03N2NCRE9KbkVlUDFMNHRJVlFLZDJlUkpAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImlhdCI6MTYxMjEyMDMyNiwiZXhwIjoxNjEyMjA2NzI2LCJhenAiOiJmeld0VlZiTTc3Y0JET0puRWVQMUw0dElWUUtkMmVSSiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9"
+		}
+	]
+}
