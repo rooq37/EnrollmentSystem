@@ -9,7 +9,7 @@ import {Message} from '../../models/message';
 import {Subscription} from '../../models/enrollment/subscription';
 import {UserService} from '../user/user.service';
 
-const headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+const headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('__USER_TOKEN__')}` });
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,7 @@ export class GroupEnrollmentService {
   baseUrl = environment.urlAddress + '/api/group-enrollment';
 
   constructor(private http: HttpClient, private userService: UserService) { }
+
 
   getCourses(fieldOfStudyCode: string, enrollmentBlockId: string): Observable<CourseList> {
     const params = new HttpParams()

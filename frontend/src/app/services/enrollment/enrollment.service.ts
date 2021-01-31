@@ -8,7 +8,7 @@ import {EnrollmentDetails} from '../../models/enrollment/enrollment-details';
 import {CourseItem} from '../../models/enrollment/course-item';
 import {UserService} from "../user/user.service";
 
-const headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+const headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('__USER_TOKEN__')}` });
 
 @Injectable({
   providedIn: 'root'
