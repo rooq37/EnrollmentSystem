@@ -19,6 +19,8 @@ public class EnrollmentBlock {
 
     private String name;
 
+    private String realization;
+
     @Column(name = "IS_LIMITED")
     private boolean isLimited;
 

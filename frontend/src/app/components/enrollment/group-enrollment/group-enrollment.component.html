@@ -1,0 +1,185 @@
+<div fxLayout="column" class="container" fxLayoutGap="50px" *ngIf="courseList">
+  <div fxLayout="row" fxLayoutAlign="space-evenly">
+    <div fxLayout="column" fxLayoutAlign="center">
+      <h3>Kierunek: {{courseList.fieldOfStudyName}} ({{courseList.fieldOfStudyCode}})</h3>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center">
+      <h3>Blok zapisów: {{courseList.enrollmentBlockName}}</h3>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center">
+      <mat-form-field appearance="fill"  [style.width.px]="400">
+        <mat-label>Kursy </mat-label>
+        <mat-select (selectionChange)="selectCourse($event)">
+          <mat-option *ngFor="let course of courseList.courses" [value]="course.code">{{course.name}} - {{course.formOfClasses}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <ng-container *ngIf="!!groups.data.length; else nocourseselected">
+    <div fxLayout="column" fxLayoutAlign="center">
+      <div fxLayout="row" fxLayoutAlign="center">
+        <table mat-table [dataSource]="groups" #groupsSort="matSort" matSort (matSortChange)="sortGroups($event)">
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Termin </th>
+            <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+          </ng-container>
+          <ng-container matColumnDef="lecturers">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Prowadzący </th>
+            <td mat-cell *matCellDef="let element"> {{element.lecturers}} </td>
+          </ng-container>
+          <ng-container matColumnDef="place">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Sala </th>
+            <td mat-cell *matCellDef="let element"> {{element.place}} </td>
+          </ng-container>
+          <ng-container matColumnDef="occupancy">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Zajętość </th>
+            <td mat-cell *matCellDef="let element"> {{element.occupancy}} </td>
+          </ng-container>
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Kod grupy </th>
+            <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Akcja </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="primary" (click)="subscribeToTheGroup(element.code)">
+                Zapisz
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsGroups"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsGroups;"></tr>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+
+
+  <div fxLayout="column" fxLayoutAlign="center">
+    <div fxLayout="row" fxLayoutAlign="center">
+      <h3 [hidden]="currentCoursesWithGroups.data.length === 0">Bieżące kursy:</h3>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center">
+      <table [hidden]="currentCoursesWithGroups.data.length === 0" mat-table [dataSource]="currentCoursesWithGroups"
+             #currentCoursesWithGroupsSort="matSort" matSort (matSortChange)="sortCurrentCourses($event)">
+        <ng-container matColumnDef="courseName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nazwa kursu </th>
+          <td mat-cell *matCellDef="let element"> {{element.course.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="formOfClasses">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Forma zajęć </th>
+          <td mat-cell *matCellDef="let element"> {{element.course.formOfClasses}} </td>
+        </ng-container>
+        <ng-container matColumnDef="numberOfEcts">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Liczba ECTS </th>
+          <td mat-cell *matCellDef="let element"> {{element.course.numberOfEcts}} </td>
+        </ng-container>
+        <ng-container matColumnDef="isSelectable">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Wybieralny </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-checkbox disabled="true" [checked]="element.course.isSelectable"></mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Termin </th>
+          <td mat-cell *matCellDef="let element"> {{(element.group != null) ? element.group.date : ''}} </td>
+        </ng-container>
+        <ng-container matColumnDef="lecturers">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Prowadzący </th>
+          <td mat-cell *matCellDef="let element"> {{(element.group != null) ? element.group.lecturers : ''}} </td>
+        </ng-container>
+        <ng-container matColumnDef="place">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Sala </th>
+          <td mat-cell *matCellDef="let element"> {{(element.group != null) ? element.group.place : ''}} </td>
+        </ng-container>
+        <ng-container matColumnDef="occupancy">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Zajętość </th>
+          <td mat-cell *matCellDef="let element"> {{(element.group != null) ? element.group.occupancy : ''}} </td>
+        </ng-container>
+        <ng-container matColumnDef="groupCode">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Kod grupy </th>
+          <td mat-cell *matCellDef="let element"> {{(element.group != null) ? element.group.code : ''}} </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Akcja </th>
+          <td mat-cell *matCellDef="let element">
+            <button *ngIf="element.group != null" mat-icon-button color="primary" (click)="unsubscribeFromTheGroup(element.group.code)">
+              Wypisz
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsCoursesWithGroups"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsCoursesWithGroups;"></tr>
+      </table>
+    </div>
+  </div>
+
+  <div fxLayout="column" fxLayoutAlign="center">
+    <div fxLayout="row" fxLayoutAlign="center">
+      <h3 [hidden]="overdueCoursesWithGroups.data.length === 0">Zaległe kursy:</h3>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center">
+      <table [hidden]="overdueCoursesWithGroups.data.length === 0" mat-table [dataSource]="overdueCoursesWithGroups"
+             #overdueCoursesWithGroupsSort="matSort" matSort (matSortChange)="sortOverdueCourses($event)">
+        <ng-container matColumnDef="courseName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nazwa kursu </th>
+          <td mat-cell *matCellDef="let element"> {{element.course.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="formOfClasses">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Forma zajęć </th>
+          <td mat-cell *matCellDef="let element"> {{element.course.formOfClasses}} </td>
+        </ng-container>
+        <ng-container matColumnDef="numberOfEcts">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Liczba ECTS </th>
+          <td mat-cell *matCellDef="let element"> {{element.course.numberOfEcts}} </td>
+        </ng-container>
+        <ng-container matColumnDef="isSelectable">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Wybieralny </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-checkbox disabled="true" [checked]="element.course.isSelectable"></mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Termin </th>
+          <td mat-cell *matCellDef="let element"> {{(element.group != null) ? element.group.date : ''}} </td>
+        </ng-container>
+        <ng-container matColumnDef="lecturers">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Prowadzący </th>
+          <td mat-cell *matCellDef="let element"> {{(element.group != null) ? element.group.lecturers : ''}} </td>
+        </ng-container>
+        <ng-container matColumnDef="place">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Sala </th>
+          <td mat-cell *matCellDef="let element"> {{(element.group != null) ? element.group.place : ''}} </td>
+        </ng-container>
+        <ng-container matColumnDef="occupancy">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Zajętość </th>
+          <td mat-cell *matCellDef="let element"> {{(element.group != null) ? element.group.occupancy : ''}} </td>
+        </ng-container>
+        <ng-container matColumnDef="groupCode">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Kod grupy </th>
+          <td mat-cell *matCellDef="let element"> {{(element.group != null) ? element.group.code : ''}} </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Akcja </th>
+          <td mat-cell *matCellDef="let element">
+            <button *ngIf="element.group != null" mat-icon-button color="primary" (click)="unsubscribeFromTheGroup(element.group.code)">
+              Wypisz
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsCoursesWithGroups"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsCoursesWithGroups;"></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ng-template #nocourseselected>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <h2 class="no-selected-course">Wybierz kurs z menu wyżej, aby móc zobaczyć możliwe grupy!</h2>
+  </div>
+</ng-template>

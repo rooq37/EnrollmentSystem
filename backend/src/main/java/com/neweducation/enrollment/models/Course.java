@@ -42,4 +42,7 @@ public class Course {
 
     @OneToMany(mappedBy = "course")
     private Set<StudentCourse> studentCourses = new HashSet<>();
+
+    @OneToMany(mappedBy = "course")
+    private Set<Group> groups = new HashSet<>();
 }

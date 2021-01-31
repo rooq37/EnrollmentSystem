@@ -9,11 +9,15 @@ import { HeaderComponent } from './components/navigation/header/header.component
 import {EnrollmentModule} from './components/enrollment/enrollment.module';
 import {HttpClientModule} from '@angular/common/http';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import { SuccessDialogComponent } from './components/dialog/success-dialog/success-dialog.component';
+import { ErrorDialogComponent } from './components/dialog/error-dialog/error-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    SuccessDialogComponent,
+    ErrorDialogComponent,
   ],
   imports: [
     BrowserModule,
