@@ -70,17 +70,16 @@ public class EnrollmentMapper {
     }
 
     private String mapToDate(Group group) {
+        if(group.getDayOfWeek() == -1)
+            return "Bez terminu";
         String dayOfWeek = DAYS_OF_WEEK[group.getDayOfWeek()];
         int hourStart = group.getHour();
         int minuteStart = group.getMinute();
-        int hourEnd = hourStart + (group.getDuration() / 60);
-        int minuteEnd = minuteStart + (group.getDuration() % 60);
         return new StringBuilder()
                 .append(dayOfWeek).append(" ")
                 .append(hourStart).append(":")
-                .append(minuteStart).append(" - ")
-                .append(hourEnd).append(":")
-                .append(minuteEnd)
+                .append(minuteStart < 10 ? "0" + minuteStart : minuteStart).append(" (")
+                .append(group.getDuration()).append(" min.)")
                 .toString();
     }
 
