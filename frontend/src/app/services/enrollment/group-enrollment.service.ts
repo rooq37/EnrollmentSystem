@@ -7,6 +7,7 @@ import {GroupItem} from '../../models/enrollment/group-item';
 import {CourseWithGroup} from '../../models/enrollment/course-with-group';
 import {Message} from '../../models/message';
 import {Subscription} from '../../models/enrollment/subscription';
+import {UserService} from '../user/user.service';
 
 const headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
@@ -17,45 +18,46 @@ export class GroupEnrollmentService {
 
   baseUrl = environment.urlAddress + '/api/group-enrollment';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private userService: UserService) { }
 
-  getCourses(studentIndex: string, fieldOfStudyCode: string, enrollmentBlockId: string): Observable<CourseList> {
+  getCourses(fieldOfStudyCode: string, enrollmentBlockId: string): Observable<CourseList> {
     const params = new HttpParams()
-      .set('studentIndex', studentIndex)
+      .set('studentIndex', this.userService.getStudentIndex())
       .set('fieldOfStudyCode', fieldOfStudyCode)
       .set('enrollmentBlockId', enrollmentBlockId);
     return this.http.get<CourseList>(`${this.baseUrl}/courses`, {headers, params});
   }
 
-  getGroups(studentIndex: string, courseCode: string, enrollmentBlockId: string): Observable<GroupItem[]> {
+  getGroups(courseCode: string, enrollmentBlockId: string): Observable<GroupItem[]> {
     const params = new HttpParams()
-      .set('studentIndex', studentIndex)
+      .set('studentIndex', this.userService.getStudentIndex())
       .set('courseCode', courseCode)
       .set('enrollmentBlockId', enrollmentBlockId);
     return this.http.get<GroupItem[]>(`${this.baseUrl}/groups`, {headers, params});
   }
 
-  getCurrentCoursesWithGroup(studentIndex: string, fieldOfStudyCode: string): Observable<CourseWithGroup[]> {
+  getCurrentCoursesWithGroup(fieldOfStudyCode: string): Observable<CourseWithGroup[]> {
     const params = new HttpParams()
-      .set('studentIndex', studentIndex)
+      .set('studentIndex', this.userService.getStudentIndex())
       .set('fieldOfStudyCode', fieldOfStudyCode);
     return this.http.get<CourseWithGroup[]>(`${this.baseUrl}/current-courses-with-groups`, {headers, params});
   }
 
-  getOverdueCoursesWithGroup(studentIndex: string, fieldOfStudyCode: string): Observable<CourseWithGroup[]> {
+  getOverdueCoursesWithGroup(fieldOfStudyCode: string): Observable<CourseWithGroup[]> {
     const params = new HttpParams()
-      .set('studentIndex', studentIndex)
+      .set('studentIndex', this.userService.getStudentIndex())
       .set('fieldOfStudyCode', fieldOfStudyCode);
     return this.http.get<CourseWithGroup[]>(`${this.baseUrl}/overdue-courses-with-groups`, {headers, params});
   }
 
   subscribeToTheGroup(subscription: Subscription): Observable<Message> {
+    subscription.studentIndex = this.userService.getStudentIndex();
     return this.http.post<Message>(`${this.baseUrl}/subscription`, subscription, {headers});
   }
 
-  unsubscribeFromTheGroup(studentIndex: string, groupCode: string): Observable<Message> {
+  unsubscribeFromTheGroup(groupCode: string): Observable<Message> {
     const params = new HttpParams()
-      .set('studentIndex', studentIndex)
+      .set('studentIndex', this.userService.getStudentIndex())
       .set('groupCode', groupCode);
     return this.http.delete<Message>(`${this.baseUrl}/subscription`, {headers, params});
   }

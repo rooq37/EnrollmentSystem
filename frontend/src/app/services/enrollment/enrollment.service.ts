@@ -6,6 +6,7 @@ import {EnrollmentBlock} from '../../models/enrollment/enrollment-block';
 import {FieldOfStudy} from '../../models/enrollment/field-of-study';
 import {EnrollmentDetails} from '../../models/enrollment/enrollment-details';
 import {CourseItem} from '../../models/enrollment/course-item';
+import {UserService} from "../user/user.service";
 
 const headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
@@ -16,36 +17,36 @@ export class EnrollmentService {
 
   baseUrl = environment.urlAddress + '/api/enrollment';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private userService: UserService) { }
 
-  getFieldsOfStudy(studentIndex: string): Observable<FieldOfStudy[]> {
-    return this.http.get<FieldOfStudy[]>(`${this.baseUrl}/fields/${studentIndex}`, {headers});
+  getFieldsOfStudy(): Observable<FieldOfStudy[]> {
+    return this.http.get<FieldOfStudy[]>(`${this.baseUrl}/fields/${this.userService.getStudentIndex()}`, {headers});
   }
 
-  getEnrollmentBlocks(studentIndex: string, fieldOfStudyCode: string): Observable<EnrollmentBlock[]> {
+  getEnrollmentBlocks(fieldOfStudyCode: string): Observable<EnrollmentBlock[]> {
     const params = new HttpParams()
-      .set('studentIndex', studentIndex)
+      .set('studentIndex', this.userService.getStudentIndex())
       .set('fieldOfStudyCode', fieldOfStudyCode);
     return this.http.get<EnrollmentBlock[]>(`${this.baseUrl}/blocks`, {headers, params});
   }
 
-  getEnrollmentDetails(studentIndex: string, enrollmentBlockId: string): Observable<EnrollmentDetails> {
+  getEnrollmentDetails(enrollmentBlockId: string): Observable<EnrollmentDetails> {
     const params = new HttpParams()
-      .set('studentIndex', studentIndex)
+      .set('studentIndex', this.userService.getStudentIndex())
       .set('enrollmentBlockId', enrollmentBlockId);
     return this.http.get<EnrollmentDetails>(`${this.baseUrl}/details`, {headers, params});
   }
 
-  getCurrentCourses(studentIndex: string, fieldOfStudyCode: string): Observable<CourseItem[]> {
+  getCurrentCourses(fieldOfStudyCode: string): Observable<CourseItem[]> {
     const params = new HttpParams()
-      .set('studentIndex', studentIndex)
+      .set('studentIndex', this.userService.getStudentIndex())
       .set('fieldOfStudyCode', fieldOfStudyCode);
     return this.http.get<CourseItem[]>(`${this.baseUrl}/current-courses`, {headers, params});
   }
 
-  getOverdueCourses(studentIndex: string, fieldOfStudyCode: string): Observable<CourseItem[]> {
+  getOverdueCourses( fieldOfStudyCode: string): Observable<CourseItem[]> {
     const params = new HttpParams()
-      .set('studentIndex', studentIndex)
+      .set('studentIndex', this.userService.getStudentIndex())
       .set('fieldOfStudyCode', fieldOfStudyCode);
     return this.http.get<CourseItem[]>(`${this.baseUrl}/overdue-courses`, {headers, params});
   }

@@ -11,6 +11,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { SuccessDialogComponent } from './components/dialog/success-dialog/success-dialog.component';
 import { ErrorDialogComponent } from './components/dialog/error-dialog/error-dialog.component';
+import {AuthModule} from '@auth0/auth0-angular';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,11 @@ import { ErrorDialogComponent } from './components/dialog/error-dialog/error-dia
     RoutingModule,
     EnrollmentModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AuthModule.forRoot({
+      domain: 'dev-tcnqfecv.eu.auth0.com',
+      clientId: 'EE5PVfSuzeb4gbg2Oh2JPEIP2tHPPdHb'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
