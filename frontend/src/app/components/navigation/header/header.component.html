@@ -2,18 +2,20 @@
   <mat-toolbar-row>
     <img class="mat-toolbar-img" src="/assets/img/logo-pwr.png">
     <div *ngIf="userService.isLogged">
-    <button mat-button routerLink="/enrollment">Zapisy</button>
-    <button mat-button>Szablony zapisów</button>
-    <button mat-button>Aktualny plan</button>
+      <button mat-button routerLink="/enrollment">Zapisy</button>
+      <button mat-button>Szablony zapisów</button>
+      <button mat-button>Aktualny plan</button>
+    </div>
+    <div *ngIf="!userService.isLogged">
+      <h2>System zapisowy</h2>
     </div>
     <span class="spacer"></span>
     <span *ngIf="userService.isLogged">{{userService.email}}</span>
-    <button mat-icon-button (click)="this.userService.logout()" *ngIf="userService.isLogged" >
+    <button mat-icon-button (click)="this.userService.logout()" *ngIf="userService.isLogged">
       <mat-icon>exit_to_app</mat-icon>
     </button>
     <button mat-icon-button (click)="this.userService.login()" *ngIf="!userService.isLogged">
       <mat-icon>login</mat-icon>
     </button>
-
   </mat-toolbar-row>
 </mat-toolbar>

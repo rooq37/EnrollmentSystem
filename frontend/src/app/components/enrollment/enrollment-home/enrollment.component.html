@@ -115,3 +115,12 @@
   </div>
 
 </div>
+
+<div fxLayout="column" fxLayoutAlign="center" *ngIf="!this.userService.isLogged">
+  <div fxLayout="row" fxLayoutAlign="center" fxFlex="10">
+    <img src="https://biurokarier.pwr.edu.pl/wp-content/uploads/2019/10/logo-PWr-kolor-pion.png">
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <button id="login-btn" mat-raised-button color="accent" (click)="this.userService.login()">Zaloguj</button>
+  </div>
+</div>
