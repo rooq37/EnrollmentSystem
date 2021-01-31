@@ -55,11 +55,6 @@ export class GroupEnrollmentComponent implements OnInit, AfterViewInit {
   }
 
   selectCourse(event: MatSelectChange): void {
-    this.groupEnrollmentService.getGroups('238123', event.value, this.enrollmentBlockId).subscribe(
-     res => {
-       this.groups.data = res;
-     }
-    );
     this.selectedCourseCode = event.value;
     this.getGroups(this.selectedCourseCode);
   }
