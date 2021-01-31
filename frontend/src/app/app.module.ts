@@ -31,9 +31,12 @@ import {AuthModule} from '@auth0/auth0-angular';
     BrowserAnimationsModule,
     AuthModule.forRoot({
       domain: 'dev-tcnqfecv.eu.auth0.com',
-      clientId: 'EE5PVfSuzeb4gbg2Oh2JPEIP2tHPPdHb'
+      clientId: 'EE5PVfSuzeb4gbg2Oh2JPEIP2tHPPdHb',
+      audience: 'http://localhost:8080'
     })
-  ],
+
+
+],
   providers: [],
   bootstrap: [AppComponent]
 })

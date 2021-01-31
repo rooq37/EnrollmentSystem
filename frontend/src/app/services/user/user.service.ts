@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {AuthService} from '@auth0/auth0-angular';
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class UserService {
   private readonly STUDENT_INDEX = '__STUDENT_INDEX__';
   isLogged: boolean;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private http: HttpClient) {
     this.studentIndexSubject.subscribe(index => this.studentIndex = index);
   }
 
@@ -41,6 +42,7 @@ export class UserService {
         this.email = user.email;
       }
     );
+    this.authService.getAccessTokenSilently().subscribe(aa => console.log(aa));
   }
 
   setIsUserLoggedIn(): void {
