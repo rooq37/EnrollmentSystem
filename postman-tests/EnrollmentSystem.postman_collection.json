@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "45403542-7a2c-445b-8f3a-6d622636a061",
+		"_postman_id": "82215d07-22a6-4781-b3b7-8f40f7ab6f75",
 		"name": "EnrollmentSystem",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -17,8 +17,8 @@
 							"    pm.response.to.be.json",
 							"",
 							"    const responseJson = pm.response.json();",
-							"        pm.expect(responseJson[0].code).to.eql(\"W8_INF\")",
-							"        pm.expect(responseJson[0].name).to.eql(\"Informatyka stosowana\")",
+							"        pm.expect(responseJson[1].code).to.eql(\"W8_INF\")",
+							"        pm.expect(responseJson[1].name).to.eql(\"Informatyka stosowana\")",
 							"});",
 							"",
 							"pm.test(\"Should get fields of courses with specified tpye\", function() {",
@@ -30,8 +30,8 @@
 							"    });",
 							"});",
 							"",
-							"pm.test(\"Response time is less than 500ms\", () => {",
-							"  pm.expect(pm.response.responseTime).to.be.below(500);",
+							"pm.test(\"Response time is less than 1000ms\", () => {",
+							"  pm.expect(pm.response.responseTime).to.be.below(1000);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -325,7 +325,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InBlNG5uQzRfalJhWXhLSm9xazcyTyJ9.eyJpc3MiOiJodHRwczovL2Rldi10Y25xZmVjdi5ldS5hdXRoMC5jb20vIiwic3ViIjoiZnpXdFZWYk03N2NCRE9KbkVlUDFMNHRJVlFLZDJlUkpAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImlhdCI6MTYxMjEyMDMyNiwiZXhwIjoxNjEyMjA2NzI2LCJhenAiOiJmeld0VlZiTTc3Y0JET0puRWVQMUw0dElWUUtkMmVSSiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.kLrZWk3O8S0E3WiCb22Mi3pRpgVl3l4c0cNCKmyUAYduQjKUkTMgkWGnJyeihgajYc6IzSccOmVuygL9rA6qAaVaunGqEvV1cI4DKH167kMQbTaur0cLOeF-G-Oc0J5yl55f-rSZ7p_w_OjFfXwqGgYmhFjW-QBpmPN96AXjKC_vPxbRqcN30DO41qOFh2jR99T5lm4BiWjX14cA16PJEAZUzFBS0SZtsrO-UPpnCG5gTWGyGupbU6Ina7P6Ng9FYRAy6qndAJehPHVmSJWp5vg0ZiQnirL-QZHyu9Nf9Rn619woq701BHpIGB8cdf5bUyOA9HWzA7kxlvYZqB-sSg",
+				"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InBlNG5uQzRfalJhWXhLSm9xazcyTyJ9.eyJpc3MiOiJodHRwczovL2Rldi10Y25xZmVjdi5ldS5hdXRoMC5jb20vIiwic3ViIjoiZnpXdFZWYk03N2NCRE9KbkVlUDFMNHRJVlFLZDJlUkpAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImlhdCI6MTYxMjE4MzY2NSwiZXhwIjoxNjEyMjcwMDY1LCJhenAiOiJmeld0VlZiTTc3Y0JET0puRWVQMUw0dElWUUtkMmVSSiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.G0nu7aTilMBzivDeQ9QHTyFLSYl4XguAjccKKaIbkO1wWPDOKCFv9GzsyBNj4lImK2bMXboJTnl2Br5irhGnBAT6BE_3EZtGZEVUNHl_rnvfLBFHuO_DFmfSq8sdp6FfK1gme5cXxrZ3HKR9XeYle9iSzJyrBbMDSWtd6zudLfTKuZA1n7dB7gexJBVfejjsclLrsQK9Z5wq3CqTpQiofSCsEYkXQKpp5oJEpZp1gM9HSFJMbIIrk9UEMrh8CsjYCKjXrPqbASgLtbvOGSNJQxm7lB3J5ylySgQtTx9XYTXkuAR2lzwYt-WymK81d40bWDB0DFtKWVcSM1iDD0iL_Q",
 				"type": "string"
 			}
 		]
