@@ -2,7 +2,12 @@ Feature: Enrollments
 
   Scenario: E2E
     Given open Home Page
-    When select "Kierunek" "Informatyka stosowana" on the Enrollment Home Page
+    When click button "Zaloguj" on the Enrollment Home Page
+    And enter "Username" "238123@student.pwr.edu.pl" on the Login Page
+    And enter "Password" "Psi@1234" on the Login Page
+    And click button "Login" on the Login Page
+
+    And select "Kierunek" "Informatyka stosowana" on the Enrollment Home Page
     And select "Blok zapisów" "Zapisy Lato 2020/2021" on the Enrollment Home Page
     Then check if "Informacje" section contains "Ograniczenia: Nie" on the Enrollment Home Page
     And check if "Informacje" section contains "Rozpoczęcie bloku: 30.01.2021 08:00" on the Enrollment Home Page

@@ -14,6 +14,7 @@ public class EnrollmentHomePage extends BasePage {
     private static final By currentCoursesTable = By.id("currentCourses");
     private static final By overdueCoursesTable = By.id("overdueCourses");
     private static final By goToEnrollmentsButton = By.id("goToEnrollmentsButton");
+    private static final By loginButton = By.id("login-btn");
 
     public void openHomePage() {
         getDriver().get(URL);
@@ -57,6 +58,12 @@ public class EnrollmentHomePage extends BasePage {
         new WebDriverWait(getDriver(), 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(goToEnrollmentsButton));
         getDriver().findElement(goToEnrollmentsButton).click();
+    }
+
+    public void clickLoginButton() {
+        new WebDriverWait(getDriver(), 10)
+                .until(ExpectedConditions.visibilityOfElementLocated(loginButton));
+        getDriver().findElement(loginButton).click();
     }
 
 }

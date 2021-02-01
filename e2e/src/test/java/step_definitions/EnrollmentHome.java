@@ -61,6 +61,9 @@ public class EnrollmentHome {
             case "Przejdź do zapisów":
                 enrollmentHomePage.clickGoToEnrollmentsButton();
                 break;
+            case "Zaloguj":
+                enrollmentHomePage.clickLoginButton();
+                break;
         }
     }
 }
