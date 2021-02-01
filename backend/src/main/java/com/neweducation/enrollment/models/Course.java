@@ -2,6 +2,7 @@ package com.neweducation.enrollment.models;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -10,6 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity(name = "COURSES")
+@ToString
 public class Course {
 
     @Id
