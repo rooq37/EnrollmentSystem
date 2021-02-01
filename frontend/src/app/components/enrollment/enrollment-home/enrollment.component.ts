@@ -1,4 +1,9 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {EnrollmentService} from '../../../services/enrollment/enrollment.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
@@ -9,6 +14,8 @@ import {EnrollmentDetails} from '../../../models/enrollment/enrollment-details';
 import {CourseItem} from '../../../models/enrollment/course-item';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import {UserService} from '../../../services/user/user.service';
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-enrollment',
@@ -17,9 +24,12 @@ import {Router} from '@angular/router';
 })
 export class EnrollmentComponent implements OnInit, AfterViewInit {
   blocks: EnrollmentBlock[];
-  fieldsOfStudy: FieldOfStudy[];
+  fieldsOfStudy$: Observable<FieldOfStudy[]>;
   enrollmentDetails: EnrollmentDetails;
   enrollmentForm: FormGroup;
+  userService: UserService;
+
+
   public displayedColumns = ['name', 'code', 'formOfClasses', 'numberOfEcts', 'isSelectable'];
   public currentCourses = new MatTableDataSource<CourseItem>();
   public overdueCourses = new MatTableDataSource<CourseItem>();
@@ -29,14 +39,13 @@ export class EnrollmentComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private enrollmentService: EnrollmentService,
-              private router: Router) { }
+              private router: Router,
+              userService: UserService) {
+    this.userService = userService;
+  }
 
   ngOnInit(): void {
-    this.enrollmentService.getFieldsOfStudy('238123').subscribe(
-      res => {
-        this.fieldsOfStudy = res;
-      }
-    );
+    this.fieldsOfStudy$ = this.enrollmentService.getFieldsOfStudy();
     this.enrollmentForm = new FormGroup({
       fieldOfStudy: new FormControl('', [Validators.required]),
       enrollmentBlock: new FormControl('', [Validators.required])
@@ -44,19 +53,19 @@ export class EnrollmentComponent implements OnInit, AfterViewInit {
   }
 
   selectFieldOfStudy(event: MatSelectChange): void {
-    this.enrollmentService.getEnrollmentBlocks('238123', event.value).subscribe(
+    this.enrollmentService.getEnrollmentBlocks(event.value).subscribe(
       res => {
         this.blocks = res;
       }
     );
     this.enrollmentForm.controls.enrollmentBlock.setValue(null);
     this.enrollmentDetails = null;
-    this.enrollmentService.getCurrentCourses('238123', event.value).subscribe(
+    this.enrollmentService.getCurrentCourses( event.value).subscribe(
       res => {
         this.currentCourses.data = res;
       }
     );
-    this.enrollmentService.getOverdueCourses('238123', event.value).subscribe(
+    this.enrollmentService.getOverdueCourses(event.value).subscribe(
       res => {
         this.overdueCourses.data = res;
       }
@@ -64,7 +73,7 @@ export class EnrollmentComponent implements OnInit, AfterViewInit {
   }
 
   selectEnrollmentBlock(event: MatSelectChange): void {
-    this.enrollmentService.getEnrollmentDetails('238123', event.value).subscribe(
+    this.enrollmentService.getEnrollmentDetails( event.value).subscribe(
       res => {
         this.enrollmentDetails = res;
       }

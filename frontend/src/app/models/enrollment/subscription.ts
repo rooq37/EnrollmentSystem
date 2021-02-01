@@ -1,5 +1,5 @@
 export interface Subscription {
-  studentIndex: string;
+  studentIndex?: string;
   groupCode: string;
   enrollmentBlockId: string;
 }
