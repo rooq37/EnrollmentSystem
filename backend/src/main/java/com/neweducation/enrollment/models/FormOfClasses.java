@@ -6,7 +6,8 @@ public enum FormOfClasses {
     LECTURE("Wykład"),
     EXERCISES("Ćwiczenia"),
     PROJECT("Projekt"),
-    SEMINAR("Seminarium");
+    SEMINAR("Seminarium"),
+    THESIS("Praca dyplomowa");
 
     private final String value;
 

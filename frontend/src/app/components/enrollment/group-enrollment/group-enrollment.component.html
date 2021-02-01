@@ -1,15 +1,15 @@
 <div fxLayout="column" class="container" fxLayoutGap="50px" *ngIf="courseList">
   <div fxLayout="row" fxLayoutAlign="space-evenly">
-    <div fxLayout="column" fxLayoutAlign="center">
+    <div id="fieldOfStudyLabel" fxLayout="column" fxLayoutAlign="center">
       <h3>Kierunek: {{courseList.fieldOfStudyName}} ({{courseList.fieldOfStudyCode}})</h3>
     </div>
-    <div fxLayout="column" fxLayoutAlign="center">
+    <div id="enrollmentBlockLabel" fxLayout="column" fxLayoutAlign="center">
       <h3>Blok zapisów: {{courseList.enrollmentBlockName}}</h3>
     </div>
     <div fxLayout="column" fxLayoutAlign="center">
       <mat-form-field appearance="fill"  [style.width.px]="400">
         <mat-label>Kursy </mat-label>
-        <mat-select (selectionChange)="selectCourse($event)">
+        <mat-select id="courseSelect" (selectionChange)="selectCourse($event)">
           <mat-option *ngFor="let course of courseList.courses" [value]="course.code">{{course.name}} - {{course.formOfClasses}}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -17,7 +17,7 @@
   </div>
 
   <ng-container *ngIf="!!groups.data.length; else nocourseselected">
-    <div fxLayout="column" fxLayoutAlign="center">
+    <div id="groupsTable" fxLayout="column" fxLayoutAlign="center">
       <div fxLayout="row" fxLayoutAlign="center">
         <table mat-table [dataSource]="groups" #groupsSort="matSort" matSort (matSortChange)="sortGroups($event)">
           <ng-container matColumnDef="date">
@@ -57,7 +57,7 @@
   </ng-container>
 
 
-  <div fxLayout="column" fxLayoutAlign="center">
+  <div id="currentCoursesTable" fxLayout="column" fxLayoutAlign="center">
     <div fxLayout="row" fxLayoutAlign="center">
       <h3 [hidden]="currentCoursesWithGroups.data.length === 0">Bieżące kursy:</h3>
     </div>
@@ -117,7 +117,7 @@
     </div>
   </div>
 
-  <div fxLayout="column" fxLayoutAlign="center">
+  <div id="overdueCoursesTable" fxLayout="column" fxLayoutAlign="center">
     <div fxLayout="row" fxLayoutAlign="center">
       <h3 [hidden]="overdueCoursesWithGroups.data.length === 0">Zaległe kursy:</h3>
     </div>

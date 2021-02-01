@@ -1,10 +1,10 @@
-<section fxLayout="column" fxLayoutAlign="center center">
+<section id="successDialog" fxLayout="column" fxLayoutAlign="center center">
   <h1 mat-dialog-title>Sukces</h1>
   <mat-dialog-content>
     <p>{{data.successMessage}}</p>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-raised-button [ngStyle]="{'color':'green'}" [mat-dialog-close]="true">OK</button>
+    <button id="okButton" mat-raised-button [ngStyle]="{'color':'green'}" [mat-dialog-close]="true">OK</button>
   </mat-dialog-actions>
 </section>
 
