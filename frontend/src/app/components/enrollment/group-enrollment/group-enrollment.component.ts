@@ -9,6 +9,7 @@ import {CourseWithGroup} from '../../../models/enrollment/course-with-group';
 import {MatSort, Sort} from '@angular/material/sort';
 import {SuccessHandlerService} from '../../../services/dialog/success-handler.service';
 import {ErrorHandlerService} from '../../../services/dialog/error-handler.service';
+import {UserService} from "../../../services/user/user.service";
 
 function compare(a: number | string | boolean, b: number | string | boolean, isAsc: boolean): number {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
@@ -44,7 +45,7 @@ export class GroupEnrollmentComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.enrollmentBlockId = this.activeRoute.snapshot.params.enrollmentBlockId;
     this.fieldOfStudyCode = this.activeRoute.snapshot.params.fieldOfStudyCode;
-    this.groupEnrollmentService.getCourses('238123', this.fieldOfStudyCode, this.enrollmentBlockId).subscribe(
+    this.groupEnrollmentService.getCourses( this.fieldOfStudyCode, this.enrollmentBlockId).subscribe(
       res => {
         this.courseList = res;
       }
@@ -60,7 +61,6 @@ export class GroupEnrollmentComponent implements OnInit, AfterViewInit {
 
   subscribeToTheGroup(groupCode: string): void {
     const subscription = {
-      studentIndex: '238123',
       groupCode,
       enrollmentBlockId: this.enrollmentBlockId
     };
@@ -78,7 +78,7 @@ export class GroupEnrollmentComponent implements OnInit, AfterViewInit {
   }
 
   unsubscribeFromTheGroup(groupCode: string): void {
-    this.groupEnrollmentService.unsubscribeFromTheGroup('238123', groupCode).subscribe(
+    this.groupEnrollmentService.unsubscribeFromTheGroup(groupCode).subscribe(
       res => {
         this.successHandler.openSuccessDialog(res.message);
         this.updateCurrentCourses();
@@ -98,7 +98,7 @@ export class GroupEnrollmentComponent implements OnInit, AfterViewInit {
   }
 
   private updateCurrentCourses(): void {
-    this.groupEnrollmentService.getCurrentCoursesWithGroup('238123', this.fieldOfStudyCode).subscribe(
+    this.groupEnrollmentService.getCurrentCoursesWithGroup(this.fieldOfStudyCode).subscribe(
       res => {
         this.currentCoursesWithGroups.data = res;
       }
@@ -106,7 +106,7 @@ export class GroupEnrollmentComponent implements OnInit, AfterViewInit {
   }
 
   private updateOverdueCourses(): void {
-    this.groupEnrollmentService.getOverdueCoursesWithGroup('238123', this.fieldOfStudyCode).subscribe(
+    this.groupEnrollmentService.getOverdueCoursesWithGroup(this.fieldOfStudyCode).subscribe(
       res => {
         this.overdueCoursesWithGroups.data = res;
       }
@@ -114,7 +114,7 @@ export class GroupEnrollmentComponent implements OnInit, AfterViewInit {
   }
 
   private getGroups(courseId: string): void {
-    this.groupEnrollmentService.getGroups('238123', courseId, this.enrollmentBlockId).subscribe(
+    this.groupEnrollmentService.getGroups(courseId, this.enrollmentBlockId).subscribe(
       res => {
         this.groups.data = res;
       }

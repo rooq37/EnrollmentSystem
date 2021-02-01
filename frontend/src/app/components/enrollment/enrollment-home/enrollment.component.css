@@ -12,3 +12,7 @@ th.mat-header-cell {
   text-align: left;
   max-width: 300px;
 }
+img {
+  width: 25%;
+  height: 25%;
+}
