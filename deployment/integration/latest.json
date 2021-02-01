@@ -1,0 +1,23 @@
+[
+  {
+    "code": "INZ004369L",
+    "name": "Hurtownie danych",
+    "plannedSemesterOfRealization": 6,
+    "semesterType": 1,
+    "formOfClasses": 0,
+    "isUniversityWide": 0,
+    "isSelectable": 0,
+    "numberOfEcts": 3
+  },
+  {
+    "code": "INZ004376W",
+    "name": "Programowanie gier",
+    "plannedSemesterOfRealization": 6,
+    "semesterType": 1,
+    "formOfClasses": 1,
+    "isUniversityWide": 0,
+    "nameOfSelectableModule": "Programowanie gier",
+    "isSelectable": 1,
+    "numberOfEcts": 2
+  }
+]

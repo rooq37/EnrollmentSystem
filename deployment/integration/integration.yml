@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: integration
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: integration
+  template:
+    metadata:
+      name: integration
+      labels:
+        app: integration
+    spec:
+      containers:
+        - name: integration
+          # TODO: zastąpić własnym z huba
+#          image:
+          ports:
+            - containerPort: 9000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: integration-service
+  labels:
+    app: integration
+  namespace: default
+spec:
+  ports:
+    - port: 9000
+      protocol: TCP
+      targetPort: 9000
+  selector:
+    app: integration
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: integration-course
+  namespace: default
+spec:
+  # Integrate the database every 3 min
+#  schedule: "*/3 * * * *"
+  # Backup the database every Saturday at 0:00
+  schedule: "0 0 * * 6"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: integration-course
+              image: curlimages/curl:latest
+              command: ["curl"]
+              args: ['backend-service:8080/integration/courses']
+          restartPolicy: Never
