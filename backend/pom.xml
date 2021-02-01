@@ -3,16 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <artifactId>enrollment</artifactId>
+        <groupId>com.neweducation</groupId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.neweducation</groupId>
-    <artifactId>enrollment</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>enrollment</name>
-    <description>Enrollment System</description>
+
+    <artifactId>backend</artifactId>
 
     <properties>
         <java.version>8</java.version>
@@ -84,6 +80,13 @@
             <artifactId>spring-security-config</artifactId>
 
         </dependency>
+
+        <dependency>
+            <groupId>com.neweducation</groupId>
+            <artifactId>frontend</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -99,6 +102,26 @@
                         </exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/classes/resources/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.parent.basedir}/frontend/dist/frontend/</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
