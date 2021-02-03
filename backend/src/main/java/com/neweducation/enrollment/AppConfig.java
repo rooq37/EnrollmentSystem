@@ -42,8 +42,9 @@ public class AppConfig extends WebSecurityConfigurerAdapter {
 
         @Override
         public void configure(HttpSecurity http) throws Exception {
-                http.authorizeRequests().antMatchers("/**").permitAll()
-                        .antMatchers("/**/api").authenticated()
+                http.authorizeRequests()
+                        .antMatchers("/api/**").authenticated()
+                        .anyRequest().permitAll()
                     .and().cors()
                     .and().oauth2ResourceServer().jwt();
         }

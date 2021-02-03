@@ -33,7 +33,7 @@ import {TokenInterceptor} from "./interceptors/token-interceptor.service";
     AuthModule.forRoot({
       domain: 'dev-tcnqfecv.eu.auth0.com',
       clientId: 'EE5PVfSuzeb4gbg2Oh2JPEIP2tHPPdHb',
-      audience: 'http://localhost:8080'
+      audience: 'https://localhost:3113'
     })
 
 
