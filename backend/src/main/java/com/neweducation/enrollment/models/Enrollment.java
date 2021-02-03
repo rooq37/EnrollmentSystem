@@ -1,5 +1,6 @@
 package com.neweducation.enrollment.models;
 
+import com.neweducation.enrollment.exceptions.enrollment.GroupFullException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,4 +28,10 @@ public class Enrollment {
 
     @Column(name = "ENROLLMENT_MODE")
     private EnrollmentMode enrollmentMode;
+
+    @PrePersist
+    public void onPrePersist() {
+        if(group.getLimitOfPlaces() == group.getEnrollments().size())
+            throw new GroupFullException(group.getCode(), group.getCourse().getCode(), group.getCourse().getName());
+    }
 }
