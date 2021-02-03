@@ -32,8 +32,7 @@ import {TokenInterceptor} from "./interceptors/token-interceptor.service";
     BrowserAnimationsModule,
     AuthModule.forRoot({
       domain: 'dev-tcnqfecv.eu.auth0.com',
-      clientId: 'EE5PVfSuzeb4gbg2Oh2JPEIP2tHPPdHb',
-      audience: 'https://localhost:3113'
+      clientId: 'EE5PVfSuzeb4gbg2Oh2JPEIP2tHPPdHb'
     })
 
 

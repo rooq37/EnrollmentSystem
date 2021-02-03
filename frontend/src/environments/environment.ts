@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  urlAddress: 'http://localhost:3113'
+  urlAddress: 'https://psi-enrollments.usermd.net'
 };
 
 /*
