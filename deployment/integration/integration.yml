@@ -15,8 +15,7 @@ spec:
     spec:
       containers:
         - name: integration
-          # TODO: zastąpić własnym z huba
-#          image:
+          image: kwozniak218/psi_integration
           ports:
             - containerPort: 9000
 ---
@@ -41,8 +40,6 @@ metadata:
   name: integration-course
   namespace: default
 spec:
-  # Integrate the database every 3 min
-#  schedule: "*/3 * * * *"
   # Backup the database every Saturday at 0:00
   schedule: "0 0 * * 6"
   jobTemplate:
