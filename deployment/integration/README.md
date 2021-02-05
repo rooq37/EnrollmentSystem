@@ -11,5 +11,4 @@ Serwis jest osobną aplikacją na Kubernetes. Trzeba zbudować obraz tej aplikac
 pomocy konfiguracji `integration.yml`.
 
 ## Cron
-Cron jest zawarty w `integration.yml` i na ten moment ma ustawiony wyzwalacz tak, jak backup. Jest tam zakomentowane
-'co trzy minuty' np. do prezentacji.
+Cron jest zawarty w `integration.yml` i na ten moment ma ustawiony wyzwalacz tak, jak backup.
