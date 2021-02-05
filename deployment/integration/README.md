@@ -1,10 +1,3 @@
-# !!! WAŻNE !!!
-!!! Na razie zakomentowany jest image w `integration.yml`. Trzeba go tam zamienić na ten z Huba (jak będzie).
-
-!!! Usunąć jak już się ten image pojawi.
-
----
-
 # Integracja (punkt styku)
 
 ## Ogólne
